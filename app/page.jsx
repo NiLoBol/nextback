@@ -1,10 +1,13 @@
+"use client";
+import useSessionStorage from "@/hook/useSessionStorage";
 // const getTopics = async () => {
 //   try {
 //     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/topics`, {
 //       cache: "no-store",
 //     });
-
 import Link from "next/link";
+import { useState } from "react";
+import { useEffect } from "react";
 
 //     if (!res.ok) {
 //       throw new Error("Failed to fetch topics");
@@ -15,8 +18,21 @@ import Link from "next/link";
 //     console.log("Error loading topics: ", error);
 //   }
 // };
-export default async function Home() {
+export default  function Home() {
   // const { topics } = await getTopics();
+  const [user, setuser] = useState("");
+  useEffect(() => {
+    // Perform localStorage action
+    console.log(sessionStorage.getItem("user"));
+    if(sessionStorage.getItem("user")!=undefined){
+      const newuser = JSON.parse(sessionStorage.getItem("user"));
+      setuser(newuser);
+      console.log(newuser);
+    }
+    else  {
+      setuser("User not Login")
+    }
+  }, []);
   return (
     // <div className="min-h-screen">
     //   <div className="font-bold text-5xl">
@@ -38,6 +54,7 @@ export default async function Home() {
     <div className="min-h-screen">
       <div className="text-center font-bold text-3xl m-5">
         <h1>Test page</h1>
+        <h1>Wecome user {user.username}</h1>
       </div>
       <div className="text-center font-bold text-2xl m-10">
         <h1>User database test</h1>
@@ -49,7 +66,15 @@ export default async function Home() {
         <div className="col-auto bg-yellow-300 p-5">
           <Link href={"./test/user"}>User page</Link>
         </div>
-
+        <div className="col-auto bg-yellow-300 p-5">
+          <Link href={"./test/user/createuser"}>User create page</Link>
+        </div>
+        <div className="col-auto bg-yellow-300 p-5">
+          <Link href={"./test/user/login"}>Login page</Link>
+        </div>
+        <div className="col-auto bg-yellow-300 p-5">
+          <Link href={"./test/todo"}>Todo page</Link>
+        </div>
       </div>
     </div>
   );

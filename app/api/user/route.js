@@ -1,18 +1,19 @@
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user"; // ให้แน่ใจว่าคุณได้ import โมเดล User อย่างถูกต้อง
 import { NextResponse } from "next/server";
-
+import Todo from "@/models/todo";
 export async function POST(request) {
   const { username, email, password } = await request.json();
   await connectMongoDB();
-  await User.create({ username, email, password });
+  const tododata = await Todo.create({});
+  await User.create({ username, email, password ,todo: tododata._id});
   return NextResponse.json({ message: "User Created" }, { status: 201 });
 }
 
 
 export async function GET() {
   await connectMongoDB();
-  const users = await User.find({},{ username: 1 });
+  const users = await User.find({});
   return NextResponse.json({ users });
 }
 

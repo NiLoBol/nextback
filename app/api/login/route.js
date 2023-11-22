@@ -13,7 +13,7 @@ export async function POST(request) {
       return NextResponse.json({ message: "Login Successful",user:user,fail:false }, { status: 200 });
     } else {
       // ไม่พบผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
-      return NextResponse.json({ message: "Login Failed" ,fail:true}, { status: 401 });
+      return NextResponse.json({ message: "Login Failed" ,fail:true}, { status: 201 });
     }
 }
 

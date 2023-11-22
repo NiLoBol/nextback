@@ -2,14 +2,13 @@
 import Link from "next/link";
 import React from "react";
 
-const adduser = async (username, password, email) => {
+const login = async (username, password) => {
   try {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/user`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/login`;
 
     const userData = {
       username,
       password,
-      email,
     };
 
     const res = await fetch(apiUrl, {
@@ -23,13 +22,13 @@ const adduser = async (username, password, email) => {
 
     if (!res.ok) {
 
-      throw new Error("Failed to add user");
+      throw new Error("Failed to login");
     }
-
+    console.log(res.json);
     return res.json();
   } catch (error) {
     
-    return {message:"มีผู้ใช้งานอยู่แล้ว"};
+    return {message:"ERROR"};
   }
 };
 
@@ -61,38 +60,22 @@ export default async function user() {
             title="Password must contain at least 8 characters with at least one letter and one number, and can't contain special characters."
           ></input>
         </div>
-        <div>
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="border-2 border-black ms-4 mt-10"
-
-          ></input>
-        </div>
         <button
           type="submit"
           onClick={async()=>{
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const email = document.getElementById('email').value;
-            const usernamePattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-            const passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        
-            if(usernamePattern.test(username) && passwordPattern.test(password) && emailPattern.test(email)){
-                const { message } =await adduser(username, password, email);
-                console.log(message);
-                if(message){
-                    alert(message);
-                }
-                else{
-                    alert(message);
-                }
-            }
-            else{
-                alert("โปรดกรอกข้อมูลให้ครบ")
+            const res =await login(username,password);
+            console.log(res);
+            alert(res.message);
+
+            if(res.fail==false){
+              // signIn(user.username, user.password,user.email);
+              sessionStorage.setItem('user', JSON.stringify(res.user));
+
+              console.log(res.user);
+              window.location.href='/';
+              
             }
           }}
         >
