@@ -52,12 +52,13 @@ function Navbar() {
   return (
     <ul class="flex fixed bg-yellow-400 w-full top-0 py-5 px-30 text-center">
       <li class="basis-3/12">
-        <button
+        <a
           type="button"
           class=" text-white font-bold  rounded-lg text-sl px-5 py-2.5 me-2 mb-2"
+          href="/"
         >
           HOME
-        </button>
+        </a>
       </li>
       <li class="basis-1/12 flex">
         <Link
