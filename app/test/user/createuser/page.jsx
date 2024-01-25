@@ -33,8 +33,8 @@ const adduser = async (username, password, email) => {
 
 export default async function user() {
   return (
-    <div className="min-h-screen">
-      <div class="px-40 mx-96 font-bold text-3xl m-5">
+    <div className="min-h-screen ">
+      <div class="px-40 mx-96 font-bold text-3xl m-5 backdrop-blur-md bg-white/5 rounded-xl py-10" >
         <h1 className="text-center">Add User</h1>
 
         <div className="ms-20">

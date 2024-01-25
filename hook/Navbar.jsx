@@ -4,128 +4,71 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const login = async (username, password) => {
-  try {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/login`;
-
-    const userData = {
-      username,
-      password,
-    };
-
-    const res = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Set the content type to JSON
-      },
-      body: JSON.stringify(userData), // Convert the user data to JSON
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to login");
-    }
-    console.log(res.json);
-    return res.json();
-  } catch (error) {
-    return { message: "ERROR" };
-  }
-};
 function Navbar() {
-    const [user, setuser] = useState("");
-    const [data, setdata] = useState("");
+  const [user, setuser] = useState("");
+  const [data, setdata] = useState("");
   useEffect(() => {
     // Perform localStorage action
     console.log(sessionStorage.getItem("user"));
-    if(sessionStorage.getItem("user")!=undefined){
+    if (sessionStorage.getItem("user") != undefined) {
       const newuser = JSON.parse(sessionStorage.getItem("user"));
       setuser(newuser);
       console.log(newuser);
-    }
-    else  {
-      setuser("")
+    } else {
+      setuser("");
     }
   }, []);
   useEffect(() => {
     console.log(data);
   }, [data]);
   return (
-    <ul class="flex fixed bg-yellow-400 w-full top-0 py-5 px-30 text-center">
+    <ul class="flex justify-around fixed backdrop-blur-sm bg-white/5  w-full top-0 py-5 px-30 text-center">
       <li class="basis-3/12">
         <a
           type="button"
-          class=" text-white font-bold  rounded-lg text-sl px-5 py-2.5 me-2 mb-2"
+          class=" text-white font-bold  rounded-lg text-3xl px-5 py-2.5 me-2 mb-2 "
           href="/"
         >
           HOME
         </a>
       </li>
-      <li class="basis-1/12 flex">
-        <Link
-          href="/test/user/createuser"
-          class="text-white bg-yellow-400 hover:bg-white hover:text-orange-500 hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-        >
-          Sing up
-        </Link>
+
+      {user == "" ? (
+        <li class="basis-3/12 ">
+        <button type="submit" onClick={() => {
+          window.location.href='/test/user/createuser'
+        }} class="before:ease relative h-12 w-40  overflow-hidden
+        border rounded-xl border-none 
+        text-2xl text-white
+        shadow-2xl transition-all before:absolute 
+        before:top-1/2 before:h-0 before:w-64 before:origin-center 
+        before:-translate-x-20 before:rotate-45 
+        before:bg-gradient-to-t before:from-green-300 before:via-blue-500 before:to-purple-600
+        before:duration-300  hover:shadow-blue-500 
+        hover:before:h-44 hover:before:-translate-y-20 mt-1 " >
+          <span class="relative z-10">Sing up</span>
+        </button>
       </li>
-      {user ==""?
-      (<li class="basis-3/12 flex">
-      <input
-        type="text"
-        className="w-32  text-sm px-5 py-2.5 me-2 mb-2 focus-visible:outline-0"
-        placeholder="username"
-        id="username"
-        name="username"
-        pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-        title="username must contain at least 8 characters with at least one letter and one number, and can't contain special characters."
-      />
-      <input
-        type="text"
-        className="w-32  text-sm px-5 py-2.5 me-2 mb-2 focus-visible:outline-0"
-        placeholder="password"
-        id="password"
-        name="password"
-        pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-        title="Password must contain at least 8 characters with at least one letter and one number, and can't contain special characters."
-      />
-      <button
-        type="submit"
-        class="text-white bg-yellow-400 hover:bg-white hover:text-orange-500 hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-        onClick={async()=>{
-          const username = document.getElementById('username').value;
-          const password = document.getElementById('password').value;
-          const res =await login(username,password);
-          console.log(res);
-          alert(res.message);
+      ) : (
+        <li class="basis-3/12 ">
+          <button type="submit" onClick={() => {
+            sessionStorage.removeItem("user");
+            window.location.reload();
+          }} class="before:ease relative h-12 w-40  overflow-hidden
+          border rounded-xl border-none 
+          text-2xl text-white
+          shadow-2xl transition-all before:absolute 
+          before:top-1/2 before:h-0 before:w-64 before:origin-center 
+          before:-translate-x-20 before:rotate-45 
+          before:bg-gradient-to-t before:from-green-300 before:via-blue-500 before:to-purple-600
+          before:duration-300  hover:shadow-blue-500 
+          hover:before:h-44 hover:before:-translate-y-20 mt-1 " >
+            <span class="relative z-10">Logout</span>
+          </button>
+        </li>
+          
+      )}
 
-          if(res.fail==false){
-            // signIn(user.username, user.password,user.email);
-            sessionStorage.setItem('user', JSON.stringify(res.user));
-
-            console.log(res.user);
-            window.location.href='/';
-            
-          }
-        }}
-      >
-
-Login
-      </button>
-      
-    </li>)
-      :(<button
-        type="submit"
-        class="text-white bg-yellow-400 hover:bg-white hover:text-orange-500 hover:font-bold font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-        onClick={()=>{
-          sessionStorage.removeItem('user');
-          window.location.reload();
-        }}
-      >
-
-Logout
-      </button>)}
-
-      <li class="basis-3/12"></li>
     </ul>
   );
 }

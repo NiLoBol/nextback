@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev & npx next-video sync -w",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,9 +12,11 @@
     "mongoose": "^7.6.3",
     "next": "13.4.6",
     "next-auth": "^4.24.4",
+    "next-video": "^0.11.2",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "react-player": "^2.14.1"
   },
   "devDependencies": {
     "autoprefixer": "^10",

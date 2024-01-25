@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/hook/Navbar";
+import React from 'react'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,13 +11,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
       {/* pause learning to redux toolkit */}
 
-      <body className={inter.className}>
+      <body className="bg min-h-screen" >
         <Navbar></Navbar>
-        <div className="mt-32">{children}</div>
+        <div className="mt-32" >{children}</div>
       </body>
     </html>
   );
